@@ -47,14 +47,14 @@ var entropy_array = function(partial) {
     return entropy;
 };
 
-var index_of_max_value = function(entropy) {
-    var max = -1;
+var index_of_best_value = function(entropy) {
+    var min = 10; // entropy can be 0 at best
     var best = "";
     for(var k in entropy) {
         if(best == "") best = k;
-        if(entropy[k]>=max) {
+        if(entropy[k] <= min) {
             best = k;
-            max = entropy[k];
+            min = entropy[k];
         }
     }
     return best;
@@ -68,7 +68,12 @@ var get_possible_values = function(attrib, examples) {
     return vals;
 };
 
-// returns an object {name: attribute name, values: array with all the possible values}
+/* returns an object, like
+* {
+*   name: attribute name,
+*   values: array with all the possible values in examples for that attribute
+* }
+* */
 var chose_attribute = function(attrib, examples) {
     var total = examples.length;
     var partial = [];  // [attrib1 => ["yes" => 2, "no" => 1], ... ]
@@ -81,7 +86,7 @@ var chose_attribute = function(attrib, examples) {
 
     var best = {"name": "", "values": []};
 
-    best.name = index_of_max_value(entropy);
+    best.name = index_of_best_value(entropy);
     best.velues = get_possible_values(best, examples);
 
     return best;
