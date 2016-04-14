@@ -1,3 +1,5 @@
+var Helper = require("../modules/helper");
+
 var same_classification = function(examples) {
     var classification = examples[0].classification;
     for(var i in examples) {
@@ -31,7 +33,7 @@ var remove_attribute = function(array, search_term) {
 };
 
 var base2_log = function(x) {
-    return Math.log(x)/Math.log(2);
+    Helper.base2_log(x);
 };
 
 var entropy_array = function(partial) {
