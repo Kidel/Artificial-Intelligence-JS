@@ -1,14 +1,9 @@
-var Helper = require("../modules/helper");
-var Classification = require("../modules/classification");
-var Learning = require("../modules/learning");
-
-
 /* given a learning set, a test set and an algorithms
  * returns the success rate of that algorithm on that test set
  */
 var base_validation = function(learning_set, test_set, classification_algorithm){
     var attribs = Object.keys(test_set[0]);
-    attribs = Helper.remove_element(attribs, "classification");
+    attribs = remove_element(attribs, "classification");
     var tree = classification_algorithm(learning_set, attribs, "");
 
     var generated_from_tests = [];
@@ -19,7 +14,7 @@ var base_validation = function(learning_set, test_set, classification_algorithm)
 
     for(var i in test_set_no_class) {
         delete test_set_no_class[i]['classification'];
-        generated_from_tests[i] = Classification.classify_record(tree, test_set_no_class[i]);
+        generated_from_tests[i] = classify_record(tree, test_set_no_class[i]);
 
         if(generated_from_tests[i].classification == test_set[i].classification)
             success++;
@@ -49,11 +44,3 @@ var cross_validation = function(examples, segment_number, classification_algorit
     }
     return total/calls;
 };
-
-
-var validation = {
-    base_validation: base_validation,
-    cross_validation: cross_validation
-};
-
-module.exports = validation;

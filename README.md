@@ -1,14 +1,14 @@
 # Machine-Learning-JS
-Machine Learning algorithms experiments using Node.js and MongoDB.
+Machine Learning algorithms experiments using Node.js as server, client-side JavaScript operations and and MongoDB as data source.
 
-../data/ folder contains the database.
+../data/ folder contains the example database.
 
-### Algorithms
+### Implemented algorithms
 * Simple C4.5
 * Simple PRISM
 * Cross Validation
 
-### To do
+### To do (at least)
 * Simulated Annealing
 * Genetic algorithm
-* Some prediction ML algorithms
+* k-means

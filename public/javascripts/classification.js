@@ -1,5 +1,3 @@
-var Helper = require("../modules/helper");
-
 /* support function
  * recursively inspects the tree, taking decisions
  */
@@ -49,13 +47,7 @@ function classify(record, params) {
  *  }
  */
 var classify_record = function(tree, new_record) {
-    var record = Helper.clone(new_record);
+    var record = clone(new_record);
     record.classification = classify(record, {"tree": tree, "val": null});
     return record;
 };
-
-var classification = {
-    classify_record: classify_record
-};
-
-module.exports = classification;

@@ -1,5 +1,3 @@
-var Helper = require("../modules/helper");
-
 /* support function
  * checks if all examples give the same outcome
  */
@@ -33,7 +31,7 @@ var majority_value = function(examples) {
  * returns the array with one element removed
  */
 var remove_attribute = function(attrib, to_remove) {
-    Helper.remove_element(attrib, to_remove);
+    remove_element(attrib, to_remove);
 };
 
 /* support function
@@ -50,7 +48,7 @@ var entropy_array = function(partial, total) {
         for(var v in partial[a]){
             entropy[a][v] = 0;
             for(var n in partial[a][v]) {
-                entropy[a][v] += (-1) * Helper.base2_log((partial[a][v][n] / total));
+                entropy[a][v] += (-1) * base2_log((partial[a][v][n] / total));
             }
         }
     }
@@ -205,9 +203,6 @@ var prism_simple = function(examples, attrib, def) {
     }
 };
 
-var learning = {
-    c4_5_simple: c4_5_simple,
-    prism_simple: prism_simple
+var prism_simple_callback = function(examples, attrib, def, callback) {
+    return callback(prism_simple(examples, attrib, def));
 };
-
-module.exports = learning;

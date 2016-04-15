@@ -51,11 +51,3 @@ var remove_element = function(elements, to_remove) {
     }
     return array;
 };
-
-var helper = {
-    base2_log: base2_log,
-    clone: clone,
-    remove_element: remove_element
-};
-
-module.exports = helper;
