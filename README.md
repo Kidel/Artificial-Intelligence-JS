@@ -1,11 +1,13 @@
 # Machine-Learning-JS
 Machine Learning algorithms experiments using Node.js as server, client-side JavaScript operations and and MongoDB as data source.
 
-../data/ folder contains the example database.
+../data/ folder contains the example database, called 'dataset', with a training set in every collection.
+
+All the important stuff is client side and is in the ../public/javascripts/ folder, Node.js is only used as a server and to retreive data from MongoDB.
 
 ## Implemented algorithms
-* Simple C4.5
-* Simple PRISM
+* A simple C4.5
+* A simple PRISM
 * Cross Validation
 
 ## To do (at least)
