@@ -1,6 +1,7 @@
 var Helper = require("../modules/helper");
 
-/* checks if all examples give the same outcome
+/* support function
+ * checks if all examples give the same outcome
  */
 var same_classification = function(examples) {
     var classification = examples[0].classification;
@@ -10,7 +11,8 @@ var same_classification = function(examples) {
     return true;
 };
 
-/* returns the most frequent outcome
+/* support function
+ * returns the most frequent outcome
  */
 var majority_value = function(examples) {
     var classifications = [];
@@ -27,7 +29,8 @@ var majority_value = function(examples) {
     return major;
 };
 
-/* returns the array with one element removed
+/* support function
+ * returns the array with one element removed
  */
 var remove_attribute = function(attrib, to_remove) {
     var array = attrib.slice(0);
@@ -39,11 +42,8 @@ var remove_attribute = function(attrib, to_remove) {
     return array;
 };
 
-var base2_log = function(x) {
-    Helper.base2_log(x);
-};
-
-/* returns the entropy value.
+/* support function
+ * returns the entropy value.
  * total: number of total elements
  * partial: array with the frequency of each attribute value, for each attribute
  *          like: [attrib1 => ['yes' => 4, 'no' => 5], attrib2 => [...], ...]
@@ -56,14 +56,15 @@ var entropy_array = function(partial, total) {
         for(var v in partial[a]){
             entropy[a][v] = 0;
             for(var n in partial[a][v]) {
-                entropy[a][v] += (-1) * base2_log((partial[a][v][n] / total));
+                entropy[a][v] += (-1) * Helper.base2_log((partial[a][v][n] / total));
             }
         }
     }
     return entropy;
 };
 
-/* selects the best attribute based on its entropy
+/* support function
+ * selects the best attribute based on its entropy
  */
 var index_of_best_value = function(entropy) {
     var min = 10; // entropy can be 0 at best
@@ -80,7 +81,8 @@ var index_of_best_value = function(entropy) {
     return best;
 };
 
-/* returns an array that contains all the possible values corresponding to an example attribute.
+/* support function
+ * returns an array that contains all the possible values corresponding to an example attribute.
  * both as key and value, like: ['yes' => 'yes', 'maybe' => 'maybe', ... ]
  */
 var get_possible_values = function(attrib, examples) {
@@ -91,7 +93,8 @@ var get_possible_values = function(attrib, examples) {
     return vals;
 };
 
-/* returns the best attribute to choose as an object, like
+/* support function
+ * returns the best attribute to choose as an object, like
 * {
 *   name: attribute name,
 *   values: array with all the possible values in examples for that attribute
@@ -116,7 +119,8 @@ var chose_attribute = function(attrib, examples) {
     return best;
 };
 
-/* returns an example list but only with the line corresponding to value in the attrib_name column
+/* support function
+ * returns an example list but only with the line corresponding to value in the attrib_name column
  */
 var filter_based_on_attrib_value = function(value, attrib_name, examples) {
     var new_examples = [];
@@ -132,24 +136,41 @@ var filter_based_on_attrib_value = function(value, attrib_name, examples) {
 * attrib: a list of attributes to choose from, like ["attrib1", "attrib2", ... ]
 * def: a default value if there are no examples (left), like "yes", or 1.
 *
-* returns: a decision tree, like {"label": best, "childs": [ .. more trees .. ]}
+* returns: a classification tree, like
+* {
+*   "label": best attribute,
+*   "type": "parameter",
+*   "subtrees": [
+*                 {
+ *                   "label": best attribute value i,
+ *                   "type": "option",
+ *                   "subtrees": [ { "type": "parameter", ... }, ... ],
+ *                 },
+ *                 {
+ *                   "label": best attribute value i,
+ *                   "type": "option",
+ *                   "subtrees": [ { "label": classification, "type": "leaf", "subtrees": [] } ],
+ *                 },
+*                   ...
+*               ],
+*  }
 * */
 var c4_5_simple = function(examples, attrib, def) {
     var global_attrib = attrib; // c4.5 when a column is removed, it can't be reused for any call
     var c4_5_simple = function(examples, def) {
-        if(examples.length == 0) return def;
-        else if(same_classification(examples)) return examples[0].classification;
-        else if(global_attrib.length == 0) return majority_value(examples);
+        if(examples.length == 0) return { "label": def, "type": "leaf", "subtrees": []};
+        else if(same_classification(examples)) return { "label": examples[0].classification, "type": "leaf", "subtrees": [] };
+        else if(global_attrib.length == 0) return { "label": majority_value(examples), "type": "leaf", "subtrees": []};
         else {
             var best = chose_attribute(global_attrib, examples);
-            var tree = {"label": best.name, "childs": []};
+            var tree = {"label": best.name, "subtrees": [], "type": "parameter"};
             var m = majority_value(examples);
             for(var i in best.values) {
                 var examples_i = filter_based_on_attrib_value(best.values[i], best.name, examples);
                 var new_attrib = remove_attribute(global_attrib, best.name);
                 global_attrib = new_attrib;
-                var subtree = c4_5_simple(examples_i, new_attrib, m);
-                tree.childs.push(subtree);
+                var subtree = {"label": best.values[i], "subtrees": [c4_5_simple(examples_i, new_attrib, m)], "type": "option"};
+                tree.subtrees.push(subtree);
             }
             return tree;
         }
@@ -158,8 +179,8 @@ var c4_5_simple = function(examples, attrib, def) {
 };
 
 
-var learning = {
+var c4_5 = {
     c4_5_simple: c4_5_simple
 };
 
-module.exports = learning;
+module.exports = c4_5;
