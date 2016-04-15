@@ -1,10 +1,10 @@
 @echo off
 
 setlocal
-if exist "D:\Bitbucket\otakufeed\app.js" goto dHome
+if exist "D:\Bitbucket\Machine-Learning\app.js" goto dHome
 
 E:
-cd "Bitbucket\otakufeed"
+cd "Bitbucket\Machine-Learning"
 set "CURRENT_DIR=%cd%"
 echo "%CURRENT_DIR%"
 
@@ -13,7 +13,7 @@ goto okHome
 :dHome
 
 D:
-cd "Bitbucket\otakufeed"
+cd "Bitbucket\Machine-Learning"
 set "CURRENT_DIR=%cd%"
 echo "%CURRENT_DIR%"
 

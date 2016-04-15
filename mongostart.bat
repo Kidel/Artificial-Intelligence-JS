@@ -33,13 +33,13 @@ echo "%CURRENT_DIR%"
 
 :okHome
 
-if exist "D:\Bitbucket\otakufeed\data\" goto dData
+if exist "D:\Bitbucket\Machine-Learning\data\" goto dData
 
-set "EXECUTABLE=mongod.exe --dbpath E:\Bitbucket\otakufeed\data\"
+set "EXECUTABLE=mongod.exe --dbpath E:\Bitbucket\Machine-Learning\data\"
 goto okData
 
 :dData
-set "EXECUTABLE=mongod.exe --dbpath D:\Bitbucket\otakufeed\data\"
+set "EXECUTABLE=mongod.exe --dbpath D:\Bitbucket\Machine-Learning\data\"
 
 :okData
 echo "%EXECUTABLE%"
