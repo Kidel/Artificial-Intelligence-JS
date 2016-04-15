@@ -205,7 +205,6 @@ var prism_simple = function(examples, attrib, def) {
     }
 };
 
-
 var learning = {
     c4_5_simple: c4_5_simple,
     prism_simple: prism_simple

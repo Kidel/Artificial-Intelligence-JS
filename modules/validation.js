@@ -53,7 +53,7 @@ var cross_validation = function(examples, segment_number, classification_algorit
 
 var validation = {
     base_validation: base_validation,
-    cross_validation: validation
+    cross_validation: cross_validation
 };
 
-module.exports = test;
+module.exports = validation;
