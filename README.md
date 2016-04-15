@@ -27,7 +27,7 @@ Then you should run one of those commands in a terminal (depending on your OS):
 #(Unix)
 /your/path/to/mongod --dbpath /your/path/to/Machine-Learning/data/"
 ```
-```bash
+```command
 ::(Windows)
 "Drive:\your\path\to\mongod.exe" --dbpath "Drive:\your\path\to\Machine-Learning\data\"
 ```
