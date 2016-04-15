@@ -40,9 +40,22 @@ function clone(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
+/* returns a copy of the array with the element removed once
+ */
+var remove_element = function(elements, to_remove) {
+    var array = elements.slice(0);
+    for (var i=array.length-1; i>=0; i--) {
+        if (array[i] === to_remove) {
+            array.splice(i, 1);
+        }
+    }
+    return array;
+};
+
 var helper = {
     base2_log: base2_log,
-    clone: clone
+    clone: clone,
+    remove_element: remove_element
 };
 
 module.exports = helper;

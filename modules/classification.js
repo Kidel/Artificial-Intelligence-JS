@@ -6,26 +6,27 @@ var Helper = require("../modules/helper");
 function classify(record, params) {
     var tree = params.tree;
     var val = params.val;
+    var app;
     if(tree.type == "parameter") {
-        var attrib = record[tree.label];
+        var attrib_val = record[tree.label];
         for(var k in tree.subtrees){
-            var app = classify(record, {"tree": tree.subtrees[k], "val": attrib});
+            app = classify(record, {"tree": tree.subtrees[k], "val": attrib_val});
             if(app != null) return app;
         }
     }
     if(tree.type == "option" && tree.label == val) {
         for(var k in tree.subtrees){
-            var app = classify(record, {"tree": tree.subtrees[k], "val": null});
+            app = classify(record, {"tree": tree.subtrees[k], "val": null});
             if(app != null) return app;
         }
     }
     if(tree.type == "leaf") {
-        return tree.classification;
+        return tree.label;
     }
     return null;
 }
 
-// TODO: test
+
 /* given a new record and a classification tree,
  * returns the record with the classification value
  * a classification tree is like
@@ -47,7 +48,7 @@ function classify(record, params) {
  *               ],
  *  }
  */
-var classify_record = function(new_record, tree) {
+var classify_record = function(tree, new_record) {
     var record = Helper.clone(new_record);
     record.classification = classify(record, {"tree": tree, "val": null});
     return record;
