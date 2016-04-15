@@ -1,5 +1,4 @@
-/* support function
- * checks if all examples give the same outcome
+/* checks if all examples give the same outcome
  */
 var same_classification = function(examples) {
     var classification = examples[0].classification;
@@ -9,8 +8,8 @@ var same_classification = function(examples) {
     return true;
 };
 
-/* support function
- * returns the most frequent outcome
+
+/* returns the most frequent outcome
  */
 var majority_value = function(examples) {
     var classifications = [];
@@ -27,19 +26,11 @@ var majority_value = function(examples) {
     return major;
 };
 
-/* support function
- * returns the array with one element removed
- */
-var remove_attribute = function(attrib, to_remove) {
-    remove_element(attrib, to_remove);
-};
 
-/* support function
- * returns the entropy value.
+/* returns the entropy value.
  * total: number of total elements
  * partial: array with the frequency of each attribute value, for each attribute
  *          like: [attrib1 => ['yes' => 4, 'no' => 5], attrib2 => [...], ...]
- *          [attrib1 => [val1 => ["yes" => 2, "no" => 1], val2 => ...], attrib2 => ... ]
  */
 var entropy_array = function(partial, total) {
     var entropy = [];
@@ -55,8 +46,8 @@ var entropy_array = function(partial, total) {
     return entropy;
 };
 
-/* support function
- * selects the best attribute based on its entropy
+
+/* selects the best attribute based on its entropy
  */
 var index_of_best_value = function(entropy) {
     var min = 10; // entropy can be 0 at best
@@ -73,8 +64,8 @@ var index_of_best_value = function(entropy) {
     return best;
 };
 
-/* support function
- * returns an array that contains all the possible values corresponding to an example attribute.
+
+/* returns an array that contains all the possible values corresponding to an example attribute.
  * both as key and value, like: ['yes' => 'yes', 'maybe' => 'maybe', ... ]
  */
 var get_possible_values = function(attrib, examples) {
@@ -85,8 +76,8 @@ var get_possible_values = function(attrib, examples) {
     return vals;
 };
 
-/* support function
- * returns the best attribute to choose as an object, like
+
+/* returns an object, like
  * {
  *   name: attribute name,
  *   values: array with all the possible values in examples for that attribute
@@ -111,8 +102,8 @@ var chose_attribute = function(attrib, examples) {
     return best;
 };
 
-/* support function
- * returns an example list but only with the line corresponding to value in the attrib_name column
+
+/* returns an example list but only with the line corresponding to value in the attrib_name column
  */
 var filter_based_on_attrib_value = function(value, attrib_name, examples) {
     var new_examples = [];
@@ -123,12 +114,6 @@ var filter_based_on_attrib_value = function(value, attrib_name, examples) {
     return new_examples;
 };
 
-
-/*  ===============================================================================================================
-
-                                           Learning Algorithms
-
-    ============================================================================================================== */
 
 /* Simple C4.5
  * examples: a list of examples from the learning set, like [{attrib1: x, attrib2: y, ... , classification}, ... ]
@@ -166,9 +151,8 @@ var c4_5_simple = function(examples, attrib, def) {
             var m = majority_value(examples);
             for(var i in best.values) {
                 var examples_i = filter_based_on_attrib_value(best.values[i], best.name, examples);
-                var new_attrib = remove_attribute(global_attrib, best.name);
-                global_attrib = new_attrib;
-                var subtree = {"label": best.values[i], "subtrees": [c4_5_simple(examples_i, new_attrib, m)], "type": "option"};
+                global_attrib = remove_attribute(global_attrib, best.name);
+                var subtree = {"label": best.values[i], "subtrees": [c4_5_simple(examples_i, global_attrib, m)], "type": "option"};
                 tree.subtrees.push(subtree);
             }
             return tree;
@@ -176,6 +160,7 @@ var c4_5_simple = function(examples, attrib, def) {
     };
     return c4_5_simple(examples, def);
 };
+
 
 /* PRISM
  * examples: a list of examples from the learning set, like [{attrib1: x, attrib2: y, ... , classification}, ... ]
@@ -201,8 +186,4 @@ var prism_simple = function(examples, attrib, def) {
         }
         return tree;
     }
-};
-
-var prism_simple_callback = function(examples, attrib, def, callback) {
-    return callback(prism_simple(examples, attrib, def));
 };

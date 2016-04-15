@@ -3,7 +3,7 @@
  */
 var base_validation = function(learning_set, test_set, classification_algorithm){
     var attribs = Object.keys(test_set[0]);
-    attribs = remove_element(attribs, "classification");
+    attribs = remove_attribute(attribs, "classification");
     var tree = classification_algorithm(learning_set, attribs, "");
 
     var generated_from_tests = [];
@@ -29,7 +29,7 @@ var base_validation = function(learning_set, test_set, classification_algorithm)
  * returns the success rate of that algorithm on any learning/test partition based on the segment number
  *
  * calls base_validation multiple times, returning the average.
- * full example set is used, buth there is no peeking
+ * full example set is used, but there is no peeking
  */
 var cross_validation = function(examples, segment_number, classification_algorithm){
     var segment_size = Math.floor(examples.length/segment_number);

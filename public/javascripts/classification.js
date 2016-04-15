@@ -6,9 +6,9 @@ function classify(record, params) {
     var val = params.val;
     var app;
     if(tree.type == "parameter") {
-        var attrib_val = record[tree.label];
+        var attrib = record[tree.label];
         for(var k in tree.subtrees){
-            app = classify(record, {"tree": tree.subtrees[k], "val": attrib_val});
+            app = classify(record, {"tree": tree.subtrees[k], "val": attrib});
             if(app != null) return app;
         }
     }

@@ -1,4 +1,15 @@
-// TODO
-// * get data from ../mushrooms/ (should make the function in another file, just needs to call it here)
-// * function to call a learning from all that data and print the result in the div
-// * function to call cross validation and print stats in the div
+function mushroom_demo() {
+    getJSON("../mushrooms/", function(err, data) {
+        if (err != null)
+            console.log("Something went wrong: " + err);
+        var mushroom_examples = data;
+        var mushroom_attributes = remove_attribute(Object.keys(mushroom_examples[0]), "classification");
+        var mushroom_tree = prism_simple(mushroom_examples, mushroom_attributes, '?');
+        var mushroom_validation = cross_validation(mushroom_examples, 10, prism_simple);
+
+        document.getElementById("prismtree").innerHTML = JSON.stringify(mushroom_tree)
+        document.getElementById("prismstats").innerHTML = "Cross Validation: " + mushroom_validation;
+    });
+}
+
+mushroom_demo();

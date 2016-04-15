@@ -1,8 +1,22 @@
+/* returns the array with one element removed
+ */
+var remove_attribute = function(attrib, to_remove) {
+    var array = attrib.slice(0);
+    for (var i=array.length-1; i>=0; i--) {
+        if (array[i] === to_remove) {
+            array.splice(i, 1);
+        }
+    }
+    return array;
+};
+
+
 /* base 2 logarithm
  */
 var base2_log = function(x) {
     return Math.log(x)/Math.log(2);
 };
+
 
 /* recursively clones an object
  */
@@ -40,14 +54,29 @@ function clone(obj) {
     throw new Error("Unable to copy obj! Its type isn't supported.");
 }
 
-/* returns a copy of the array with the element removed once
+
+/* use it like this:
+ getJSON("http://...", function(err, data) {
+     if (err != null) {
+        alert("Something went wrong: " + err);
+     }
+     else {
+        alert("Your query count: " + data.query.count);
+     }
+ });
  */
-var remove_element = function(elements, to_remove) {
-    var array = elements.slice(0);
-    for (var i=array.length-1; i>=0; i--) {
-        if (array[i] === to_remove) {
-            array.splice(i, 1);
+var getJSON = function(url, callback) {
+    var xhr = new XMLHttpRequest();
+    xhr.open("get", url, true);
+    xhr.responseType = "json";
+    xhr.onload = function() {
+        var status = xhr.status;
+        if (status == 200) {
+            callback(null, xhr.response);
+        } else {
+            callback(status);
         }
-    }
-    return array;
+    };
+    xhr.send();
 };
+
