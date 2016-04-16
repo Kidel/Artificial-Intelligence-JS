@@ -18,8 +18,13 @@ All the important stuff is client side and is in the ../public/javascripts/ fold
 ***
 
 ##Installation
-To test the code simply open a terminal and run this command with the the project folder as current directory:
+To use the main functions you really just need a browser and the stuff in the ../public/javascripts/ folder.
+Just give it a data set in JSON format (se demo.js or tests.html for some examples).
+
+For server and database functions you must first install [Node.js](https://nodejs.org/) and [MongoDB](https://www.mongodb.org/).
+Then simply open a terminal and run this command:
 ```bash
+cd /your/path/to/Machine-Learning-JS/
 npm install
 ```
 It has to be done only the first time in order to install the required modules.
@@ -27,17 +32,15 @@ It has to be done only the first time in order to install the required modules.
 Then you should run one of those commands in a terminal (depending on your OS):
 ```bash
 #(Unix)
-/your/path/to/mongod --dbpath /your/path/to/Machine-Learning/data/"
+/your/path/to/mongod --dbpath /your/path/to/Machine-Learning-JS/data/"
 ```
 ```command
 ::(Windows)
-"Drive:\your\path\to\mongod.exe" --dbpath "Drive:\your\path\to\Machine-Learning\data\"
+"Drive:\your\path\to\mongod.exe" --dbpath "Drive:\your\path\to\Machine-Learning-JS\data\"
 ```
 And this one in another terminal to start the server (of course current directory has to be the project folder again):
 ```bash
+cd /your/path/to/Machine-Learning-JS/
 npm start
 ```
-Then go to [localhost:3000](http://localhost:3000) in your browser and wait for the data to be loaded (it may take a while depending on your hardware).
-
-Of course you should download and install [Node.js](https://nodejs.org/) and [MongoDB](https://www.mongodb.org/).
-
+Finally go to [localhost:3000](http://localhost:3000) in your browser and wait for the data to be loaded (it may take a while depending on your hardware).
