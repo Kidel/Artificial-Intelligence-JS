@@ -1,10 +1,10 @@
 @echo off
 
 setlocal
-if exist "D:\Bitbucket\Machine-Learning\app.js" goto dHome
+if exist "D:\Bitbucket\Machine-Learning-JS\app.js" goto dHome
 
 E:
-cd "Bitbucket\Machine-Learning"
+cd "GitHub\Machine-Learning-JS"
 set "CURRENT_DIR=%cd%"
 echo "%CURRENT_DIR%"
 
@@ -13,7 +13,7 @@ goto okHome
 :dHome
 
 D:
-cd "Bitbucket\Machine-Learning"
+cd "GitHub\Machine-Learning-JS"
 set "CURRENT_DIR=%cd%"
 echo "%CURRENT_DIR%"
 
