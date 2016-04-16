@@ -140,3 +140,31 @@ function print_queens(node){
     board += sep;
     return board;
 }
+
+function get_index_and_max_value(array){
+    var max = null;
+    var index = -1;
+    for(var k in array){
+        if(max==null || max<array[k]){
+            max = array[k];
+            index = k;
+        }
+    }
+    return {"index": index, "max": max };
+}
+
+function get_index_and_min_value(array){
+    var min = null;
+    var index = -1;
+    for(var k in array){
+        if(min==null || min>array[k]){
+            min = array[k];
+            index = k;
+        }
+    }
+    return {"index": index, "min": min };
+}
+
+function is_even(n) {
+    return n == parseFloat(n)? !(n%2) : void 0;
+}

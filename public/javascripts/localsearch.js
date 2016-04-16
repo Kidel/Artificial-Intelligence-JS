@@ -20,8 +20,8 @@ var queens_puzzle = {
         return arr;
     },
     "randomswap": function(arr){
-        var c1 = Math.floor((Math.random() * (this.size-1)));
-        var c2 = Math.floor((Math.random() * (this.size-1)));
+        var c1 = Math.floor((Math.random() * (this.size)));
+        var c2 = Math.floor((Math.random() * (this.size)));
         var app = arr[c1];
         arr[c1] = arr[c2];
         arr[c2] = app;
@@ -112,10 +112,81 @@ var simulated_annealing_simple = function(problem, options){
     return current;
 };
 
+/* given 2 nodes (array) and a cut, gives 2 childs with the pieces before and after the cut swapped
+ */
+var reproduction = function(node1, node2, cut){
+    var app1 = [];
+    var app2 = [];
+    for(var i=0; i<node1.length; i++) {
+        if(i<=cut) {
+            app1[i]=node1[i];
+            app2[i]=node2[i];
+        }
+        else {
+            app1[i]=node2[i];
+            app2[i]=node1[i];
+        }
+    }
+    return [app1, app2];
+};
 
-/* TODO genetic algorithm
- * problem: a problem that has at least a local min/max, with am evaluate and a create_random_node function
+
+// TODO test
+/* Simple Genetic Algorithm
+ * problem: a problem that has at least a local min/max, with am evaluate and a create_random_node function.
+ * nodes can only be arrays of numbers for now.
+ * k: number of initial nodes
  * options: json format options to specify an infinite_value to loop time until that at best and an halting function based on problem and node
  *
  * returns a local min/max as a node for that problem
  */
+var genetic_algorithm_simple = function(problem, k, options){
+    // initialize
+    var nodes = [];
+    var evaluations = [];
+    var cut = 1;
+    var MAX,
+        halting;
+
+    for(var i=0; i<k; i++){
+        nodes[i] = problem.create_random_node();
+    }
+
+    if(options == null || options.infinite_value == null) MAX = 100000;
+    else MAX = options.infinite_value;
+
+    if(options == null || options.halting == null) {
+        halting = function(foo, bar) {return false};
+    }
+    else halting = options.halting;
+
+    // loop starts here
+    for(var j=0; j<MAX; j++) {
+        for (var i = 0; i < k; i++) {
+            evaluations[i] = problem.evaluate(nodes[i]);
+        }
+
+        var strongest = get_index_and_max_value(evaluations);
+        if(halting(problem, nodes[strongest.index])) return nodes[strongest.index]; //checking if halting condition is matched
+        var weakest = get_index_and_min_value(evaluations);
+
+        // killing the weakest
+        nodes[weakest.index] = nodes[strongest.index];
+
+        // fixing odd number
+        if (!is_even(nodes.length)) nodes[nodes.length] = nodes[strongest.index];
+
+        // reproduction for each node
+        for(var i=0; i<nodes.length; i+=2){
+            // for each couple make 2 children with a random cut of the sequence
+            cut = Math.floor((Math.random() * (nodes.length - 2)) + 1); //rand from 1 to (last index - 1)
+
+            // reproduction
+            var childs = reproduction(nodes[i], nodes[i+1], cut);
+            nodes[i] = childs[0];
+            nodes[i+1] = childs[1];
+        }
+    }
+    var best = get_index_and_max_value(evaluations);
+    return nodes[best.index];
+};

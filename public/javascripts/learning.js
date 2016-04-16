@@ -187,3 +187,73 @@ var prism_simple = function(examples, attrib, def) {
         return tree;
     }
 };
+
+
+/* returns true or false if k-means is done. K-means terminates either
+ * because it has run a maximum number of iterations OR the centroids
+ * stop changing (with a certain tolerance).
+ */
+var should_stop = function(old_centroids, centroids, iterations, options) {
+    if(options == null || options.max_iterations == null) max_iterations = 10000;
+    else max_iterations = options.max_iterations;
+    if(options == null || options.tolerance == null) tolerance = 10;
+    else tolerance = options.tolerance;
+
+    return (iterations > max_iterations || Math.abs(old_centroids - centroids) < tolerance);
+};
+
+
+/* returns a label for each piece of data in the dataset.
+ */
+var get_labels = function(dataset, centroids) {
+    // TODO For each element in the dataset, chose the closest centroid.
+    //      Make that centroid the element's label.
+};
+
+
+/* Returns k random centroids, each of dimension n.
+ */
+var get_centroids = function(dataset, labels, k) {
+    // TODO Each centroid is the geometric mean of the points that
+    //      have that centroid's label. Important: If a centroid is empty (no points have
+    //      that centroid's label) you should randomly re-initialize it.
+};
+
+
+/* Returns k random centroids, each of dimension num_features
+ */
+var get_random_centroids = function(num_features, k) {
+    // TODO
+};
+
+
+/* K Means
+ * takes in a dataset and a constant k
+ *
+ * returns k centroids (which define clusters of data in the dataset which are similar to one another).
+ */
+var k_means = function(dataset, k) {
+    // initialize centroids randomly
+    var num_features = remove_attribute(Object.keys(dataset[0]), "classification").length;
+    var centroids = get_random_centroids(num_features, k);
+
+    // initialize book keeping vars.
+    var iterations = 0;
+    var old_centroids = [];
+
+    // run the main k-means algorithm
+    while (!should_stop(old_centroids, centroids, iterations, null)) {
+        // save old centroids for convergence test. Book keeping.
+        old_centroids = centroids;
+        iterations++;
+
+        // assign labels to each datapoint based on centroids
+        var labels = get_labels(dataset, centroids);
+
+        // assign centroids based on datapoint labels
+        centroids = get_centroids(dataset, labels, k);
+    }
+
+    // we can get the labels too by calling get_labels(dataset, centroids)
+    return centroids
+};
