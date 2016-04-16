@@ -101,3 +101,19 @@ function syntaxHighlight(json) {
         return '<span class="' + cls + '">' + match + '</span>';
     });
 }
+
+function add_zero(x,n) {
+    while (x.toString().length < n) {
+        x = "0" + x;
+    }
+    return x;
+}
+
+function display_time() {
+    var d = new Date();
+    var h = add_zero(d.getHours(), 2);
+    var m = add_zero(d.getMinutes(), 2);
+    var s = add_zero(d.getSeconds(), 2);
+    var ms = add_zero(d.getMilliseconds(), 3);
+    return h + ":" + m + ":" + s + ":" + ms + " ";
+}
