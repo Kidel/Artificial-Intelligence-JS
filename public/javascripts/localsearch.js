@@ -1,3 +1,4 @@
+// example problem
 var queens_puzzle = {
     "name": "queens puzzle",
     "size": 8,
@@ -55,7 +56,8 @@ var queens_puzzle = {
     }
 };
 
-var example_options = {
+// example options
+var queens_options = {
     "infinite_value": 100000,
     "cooling": null,
     "halting": function(problem, node) {
@@ -139,7 +141,6 @@ var mutation = function(node) {
 };
 
 
-// TODO test
 /* Simple Genetic Algorithm
  * problem: a problem that has at least a local min/max, with am evaluate and a create_random_node function.
  * nodes can only be arrays of numbers for now.
@@ -149,17 +150,14 @@ var mutation = function(node) {
  * returns a local min/max as a node for that problem
  */
 var genetic_algorithm_simple = function(problem, k, options){
-    // initialize
     var nodes = [];
     var evaluations = [];
     var cut = 1;
     var MAX,
         halting;
-
     for(var i=0; i<k; i++){
         nodes[i] = problem.create_random_node();
     }
-
     if(options == null || options.infinite_value == null) MAX = 1000000;
     else MAX = options.infinite_value;
 
@@ -167,33 +165,27 @@ var genetic_algorithm_simple = function(problem, k, options){
         halting = function(foo, bar) {return false};
     }
     else halting = options.halting;
+    // initialization done
 
-    // loop starts here
     for(var j=0; j<MAX; j++) {
         for (var i = 0; i < k; i++) {
             evaluations[i] = problem.evaluate(nodes[i]);
         }
-
         var strongest = get_index_and_max_value(evaluations);
         if(halting(problem, nodes[strongest.index])) return nodes[strongest.index]; //checking if halting condition is matched
         var weakest = get_index_and_min_value(evaluations);
-
         // killing the weakest
         nodes[weakest.index] = nodes[strongest.index];
-
         // fixing odd number
         if (!is_even(nodes.length)) nodes[nodes.length] = nodes[strongest.index];
-
         // reproduction for each node
         for(var i=0; i<nodes.length; i+=2){
             // for each couple make 2 children with a random cut of the sequence
             cut = Math.floor(Math.random() * (nodes.length)); //rand from 0 to last index
-
             // reproduction
             var childs = reproduction(nodes[i], nodes[i+1], cut);
             nodes[i] = childs[0];
             nodes[i+1] = childs[1];
-
             // mutation
             if(problem.evaluate(nodes[i])<0) mutation(nodes[i]);
             if(problem.evaluate(nodes[i+1])<0) mutation(nodes[i+1]);

@@ -1,10 +1,10 @@
 function mushroom_demo() {
     document.getElementById("status").innerHTML += display_time() + "Calculating simulated annealing...<br />";
-    document.getElementById("simulatedannealing").innerHTML = print_queens(simulated_annealing_simple(queens_puzzle, example_options));
+    document.getElementById("simulatedannealing").innerHTML = print_queens(simulated_annealing_simple(queens_puzzle, queens_options));
     document.getElementById("status").innerHTML += display_time() + "Done!<br />";
 /*
     document.getElementById("status").innerHTML += display_time() + "Calculating genetic algorithm...<br />";
-    document.getElementById("geneticalgorithm").innerHTML = print_queens(genetic_algorithm_simple(queens_puzzle, 10, example_options));
+    document.getElementById("geneticalgorithm").innerHTML = print_queens(genetic_algorithm_simple(queens_puzzle, 10, queens_options));
     document.getElementById("status").innerHTML += display_time() + "Done!<br />";
 */
     document.getElementById("status").innerHTML += display_time() + "Loading the mushrooms data set...<br />";
@@ -30,7 +30,6 @@ function mushroom_demo() {
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
         }
     });
-
 }
 
 mushroom_demo();
