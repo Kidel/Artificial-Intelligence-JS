@@ -207,34 +207,44 @@ var should_stop = function(old_centroids, centroids, iterations, options) {
  */
 var get_labels = function(dataset, centroids) {
     // TODO For each element in the dataset, chose the closest centroid.
-    //      Make that centroid the element's label.
+    //      Make that centroid the element's label, like dataset[i].centroid = k.
 };
 
 
-/* Returns k random centroids, each of dimension n.
+/* returns k random centroids, each of dimension n.
  */
 var get_centroids = function(dataset, labels, k) {
     // TODO Each centroid is the geometric mean of the points that
     //      have that centroid's label. Important: If a centroid is empty (no points have
     //      that centroid's label) you should randomly re-initialize it.
+    //      So for each dataset row and each different label, group the elements
+    //      by label and then calculate the centroid. There need to be k centroids.
 };
 
 
-/* Returns k random centroids, each of dimension num_features
+/* returns k random centroids, each of dimension num_features
  */
 var get_random_centroids = function(num_features, k) {
+    // TODO
+};
+
+/* returns the distance between 2 vectors
+ * https://en.wikipedia.org/wiki/Euclidean_distance
+ */
+var get_distance = function(vectorA, vectorB) {
     // TODO
 };
 
 
 /* K Means
  * takes in a dataset and a constant k
+ * options are bassed to the should_stop function, may be null.
  *
  * returns k centroids (which define clusters of data in the dataset which are similar to one another).
  */
-var k_means = function(dataset, k) {
+var k_means = function(dataset, k, options) {
     // initialize centroids randomly
-    var num_features = remove_attribute(Object.keys(dataset[0]), "classification").length;
+    var num_features = remove_attribute(Object.keys(dataset[0]), "classification").length; // there isn't supposed to be a "classification" anyway
     var centroids = get_random_centroids(num_features, k);
 
     // initialize book keeping vars.
@@ -242,7 +252,7 @@ var k_means = function(dataset, k) {
     var old_centroids = [];
 
     // run the main k-means algorithm
-    while (!should_stop(old_centroids, centroids, iterations, null)) {
+    while (!should_stop(old_centroids, centroids, iterations, options)) {
         // save old centroids for convergence test. Book keeping.
         old_centroids = centroids;
         iterations++;
@@ -253,7 +263,5 @@ var k_means = function(dataset, k) {
         // assign centroids based on datapoint labels
         centroids = get_centroids(dataset, labels, k);
     }
-
-    // we can get the labels too by calling get_labels(dataset, centroids)
-    return centroids
+    return {"centroids": centroids, "labels": get_labels(dataset, centroids)};
 };
