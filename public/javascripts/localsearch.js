@@ -1,6 +1,6 @@
 var queens_puzzle = {
     "name": "queens puzzle",
-    "size": 20,
+    "size": 8,
     "get_initial_node": function(){
         var arr = [];
         for(var i = 0; i< this.size; i++){
@@ -51,7 +51,7 @@ var queens_puzzle = {
                 }
             }
         }
-        return ((-1)*conflicts)/5;
+        return ((-1)*conflicts);
     }
 };
 
@@ -131,6 +131,14 @@ var reproduction = function(node1, node2, cut){
 };
 
 
+/* given a node generates a random mutation in a random slot
+ */
+var mutation = function(node) {
+    node[Math.floor(Math.random() * (node.length))] = Math.floor(Math.random() * (node.length));
+    return node;
+};
+
+
 // TODO test
 /* Simple Genetic Algorithm
  * problem: a problem that has at least a local min/max, with am evaluate and a create_random_node function.
@@ -152,7 +160,7 @@ var genetic_algorithm_simple = function(problem, k, options){
         nodes[i] = problem.create_random_node();
     }
 
-    if(options == null || options.infinite_value == null) MAX = 100000;
+    if(options == null || options.infinite_value == null) MAX = 1000000;
     else MAX = options.infinite_value;
 
     if(options == null || options.halting == null) {
@@ -179,12 +187,16 @@ var genetic_algorithm_simple = function(problem, k, options){
         // reproduction for each node
         for(var i=0; i<nodes.length; i+=2){
             // for each couple make 2 children with a random cut of the sequence
-            cut = Math.floor((Math.random() * (nodes.length - 2)) + 1); //rand from 1 to (last index - 1)
+            cut = Math.floor(Math.random() * (nodes.length)); //rand from 0 to last index
 
             // reproduction
             var childs = reproduction(nodes[i], nodes[i+1], cut);
             nodes[i] = childs[0];
             nodes[i+1] = childs[1];
+
+            // mutation
+            if(problem.evaluate(nodes[i])<0) mutation(nodes[i]);
+            if(problem.evaluate(nodes[i+1])<0) mutation(nodes[i+1]);
         }
     }
     var best = get_index_and_max_value(evaluations);
