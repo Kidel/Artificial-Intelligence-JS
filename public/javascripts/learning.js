@@ -162,7 +162,7 @@ var c4_5_simple = function(examples, attrib, def) {
 };
 
 
-/* PRISM
+/* Simple PRISM
  * examples: a list of examples from the learning set, like [{attrib1: x, attrib2: y, ... , classification}, ... ]
  * attrib: a list of attributes to choose from, like ["attrib1", "attrib2", ... ]
  * def: a default value if there are no examples (left), like "yes", or 1.
