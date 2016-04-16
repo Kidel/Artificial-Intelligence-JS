@@ -11,11 +11,16 @@ All the important stuff is client side and is in the ../public/javascripts/ fold
 * Cross Validation
 * Simulated Annealing
 
+## Almost done
+* Genetic Algorithm *(tuning)*
+
 ## To do (at least)
-* Genetic Algorithm (almost done)
-* k-means (halfway there)
+* k-means *(halfway there)*
+
 
 ***
+
+
 
 ##Installation
 To use the main functions you really just need a browser and the stuff in the ../public/javascripts/ folder.
