@@ -5,22 +5,19 @@ Machine Learning algorithms experiments using Node.js as server, client-side Jav
 
 All the important stuff is client side and is in the ../public/javascripts/ folder, Node.js is only used as a server and to retreive data from MongoDB.
 
+### Why do I need it?
+You really don't, there are a lot of libraries for machine learning out there. This is meant to be just an experiment or simply practice.
+
+
 ## Implemented algorithms
 * A simple C4.5
 * A simple PRISM
 * Cross Validation
 * Simulated Annealing
-
-## Almost done
-* Genetic Algorithm *(tuning)*
-
-## To do (at least)
+* Genetic Algorithm *(tuning required)*
 * k-means *(halfway there)*
 
-
 ***
-
-
 
 ##Installation
 To use the main functions you really just need a browser and the stuff in the ../public/javascripts/ folder.
