@@ -12,8 +12,8 @@ All the important stuff is client side and is in the ../public/javascripts/ fold
 * Simulated Annealing
 
 ## To do (at least)
-* Genetic algorithm
-* k-means
+* Genetic Algorithm (almost done)
+* k-means (halfway there)
 
 ***
 
