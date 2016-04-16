@@ -4,7 +4,7 @@
     <script type="text/javascript" src="javascripts/learning.js"></script>
     <script type="text/javascript" src="javascripts/classification.js"></script>
     <script type="text/javascript" src="javascripts/validation.js"></script>
-
+    <script type="text/javascript" src="javascripts/localsearch.js"></script>
 </head>
 <body>
 
@@ -74,6 +74,9 @@
 
     test_print('cross validation C4.5: ' + cross_validation(test_examples, 3, c4_5_simple));
     test_print('cross validation PRISM: ' + cross_validation(test_examples, 3, prism_simple));
+
+    test_print('simulated annealing on queens puzzle: ' + simulated_annealing_simple(queens_puzzle, example_options).toString());
+
 </script>
 
 </body>

@@ -11,6 +11,8 @@ function mushroom_demo() {
         document.getElementById("prismtree").innerHTML = syntaxHighlight(mushroom_tree);
         document.getElementById("prismstats").innerHTML = " - Cross Validation: " + mushroom_validation_prism;
         document.getElementById("c4_5stats").innerHTML = " - Cross Validation: " + mushroom_validation_c4_5;
+
+        document.getElementById("simulatedannealing").innerHTML = simulated_annealing_simple(queens_puzzle, example_options).toString();
     });
 }
 

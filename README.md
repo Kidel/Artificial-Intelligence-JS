@@ -9,9 +9,9 @@ All the important stuff is client side and is in the ../public/javascripts/ fold
 * A simple C4.5
 * A simple PRISM
 * Cross Validation
+* Simulated Annealing
 
 ## To do (at least)
-* Simulated Annealing
 * Genetic algorithm
 * k-means
 
