@@ -1,7 +1,7 @@
 @echo off
 
 setlocal
-if exist "D:\Bitbucket\Machine-Learning-JS\app.js" goto dHome
+if exist "D:\GitHub\Machine-Learning-JS\app.js" goto dHome
 
 E:
 cd "GitHub\Machine-Learning-JS"
