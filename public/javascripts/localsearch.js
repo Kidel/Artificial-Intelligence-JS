@@ -1,7 +1,7 @@
 // example problem
 var queens_puzzle = {
     "name": "queens puzzle",
-    "size": 8,
+    "size": 20,
     "get_initial_node": function(){
         var arr = [];
         for(var i = 0; i< this.size; i++){
