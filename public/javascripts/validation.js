@@ -33,7 +33,7 @@ var base_validation = function(learning_set, test_set, classification_algorithm)
  */
 var cross_validation = function(examples, segment_number, classification_algorithm){
     console.log("cross validation on " + examples.length + " lines divided in " + segment_number + " segments of " + Math.floor(examples.length/segment_number) + " elements");
-    var segment_size = Math.floor(examples.length/segment_number);
+    var segment_size = Math.ceil(examples.length/segment_number);
     var calls = 0;
     var total = 0;
     for(var i = 1; i < examples.length; i+=segment_size) {

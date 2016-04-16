@@ -51,7 +51,7 @@ var queens_puzzle = {
                 }
             }
         }
-        return ((-1)*conflicts)/(this.size);
+        return ((-1)*conflicts)/5;
     }
 };
 

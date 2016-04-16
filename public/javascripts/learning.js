@@ -144,7 +144,7 @@ var c4_5_simple = function(examples, attrib, def) {
     var c4_5_simple = function(examples, def) {
         if(examples.length == 0) return { "label": def, "type": "leaf", "subtrees": []};
         else if(same_classification(examples)) return { "label": examples[0].classification, "type": "leaf", "subtrees": [] };
-        else if(global_attrib.length == 0) return { "label": majority_value(examples), "type": "leaf", "subtrees": []};
+        else if(global_attrib.length == 0) return { "label": majority_value(examples), "type": "leaf", "subtrees": [], "note": "majority"};
         else {
             var best = chose_attribute(global_attrib, examples);
             var tree = {"label": best.name, "subtrees": [], "type": "parameter"};
@@ -172,7 +172,7 @@ var c4_5_simple = function(examples, attrib, def) {
 var prism_simple = function(examples, attrib, def) {
     if(examples.length == 0) return { "label": def, "type": "leaf", "subtrees": []};
     else if(same_classification(examples)) return { "label": examples[0].classification, "type": "leaf", "subtrees": [] };
-    else if(attrib.length == 0) return { "label": majority_value(examples), "type": "leaf", "subtrees": []};
+    else if(attrib.length == 0) return { "label": majority_value(examples), "type": "leaf", "subtrees": [], "note": "majority"};
     else {
         var best = chose_attribute(attrib, examples);
         var tree = {"label": best.name, "subtrees": [], "type": "parameter"};

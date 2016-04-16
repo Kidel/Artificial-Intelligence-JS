@@ -117,3 +117,26 @@ function display_time() {
     var ms = add_zero(d.getMilliseconds(), 3);
     return h + ":" + m + ":" + s + ":" + ms + " ";
 }
+
+function print_queens(node){
+    var board = "";
+    var sep = "";
+    for(var i = 0; i<1+node.length*4; i++) {
+        sep += "_";
+    }
+    sep += "\n<br />";
+    for(var i = 0; i<node.length; i++){
+        board += sep;
+        board += "|";
+        for(var j = 0; j<node.length; j++){
+            if(j==node[i])
+                board += " Q ";
+            else
+                board += "   ";
+            board += "|";
+        }
+        board += "\n";
+    }
+    board += sep;
+    return board;
+}
