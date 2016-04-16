@@ -3,11 +3,13 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}.
-  | This page is under construction. Meanwhile all the useful code is in ../public/javascripts/
+  | This is a demo page.
   br
   br
-  | Here is a tree learned with PRISM:
-  div#prismtree
-  p Here are some stats on that algorithm:
+  p Here are some stats on PRISM applied to the mushroom collection:
   div#prismstats
+  p Here are some stats on C4.5 on the same collection:
+  div#c4_5stats
+  p Here is the tree learned with PRISM:
+  pre#prismtree
   script(type='text/javascript', src='/javascripts/demo.js')

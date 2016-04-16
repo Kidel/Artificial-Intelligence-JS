@@ -2,8 +2,7 @@
  * returns the success rate of that algorithm on that test set
  */
 var base_validation = function(learning_set, test_set, classification_algorithm){
-    var attribs = Object.keys(test_set[0]);
-    attribs = remove_attribute(attribs, "classification");
+    var attribs = remove_attribute(Object.keys(test_set[0]), "classification");
     var tree = classification_algorithm(learning_set, attribs, "");
 
     var generated_from_tests = [];
@@ -32,15 +31,20 @@ var base_validation = function(learning_set, test_set, classification_algorithm)
  * full example set is used, but there is no peeking
  */
 var cross_validation = function(examples, segment_number, classification_algorithm){
-    var segment_size = Math.floor(examples.length/segment_number);
-    var avg = 0;
+    console.log("cross validation on " + examples.length + " lines divided in " + segment_number + " segments of " + Math.floor(examples.length/segment_number) + " elements");
+    var segment_size = Math.ceil(examples.length/segment_number);
     var calls = 0;
     var total = 0;
-    for(var i = 0; i < examples.length; i+=segment_size) {
+    for(var i = 1; i < examples.length; i+=segment_size) {
         var learning_set = examples.slice(0, i).concat(examples.slice(i+segment_size, examples.length)); //not taking the i-esim
-        var test_set = examples.slice(i, i+segment_size);
+        var test_set = examples.slice(i+1, i+segment_size);
+        console.log("learning set size: " + learning_set.length);
+        console.log("test set size: " + test_set.length);
         calls++;
-        total += base_validation(learning_set, test_set, classification_algorithm);
+        var base = base_validation(learning_set, test_set, classification_algorithm);
+        console.log("" + Math.ceil(i/segment_size) + ": " + base);
+        total += base;
     }
+    console.log("average: "+ total/calls);
     return total/calls;
 };
