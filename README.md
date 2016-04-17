@@ -10,14 +10,12 @@ You really don't, there are a lot of libraries for machine learning out there. T
 
 
 ## Implemented algorithms
-* A simple C4.5
-* A simple PRISM
+* a simple C4.5
+* a simple PRISM
+* a simple K-Means
 * Cross Validation
 * Simulated Annealing
 * Genetic Algorithm
-
-### To do
-* k-means *(halfway there)*
 
 ***
 
