@@ -1,3 +1,76 @@
+// example problem
+var queens_puzzle = {};
+queens_puzzle.name = "queens puzzle";
+queens_puzzle.size = 20;
+queens_puzzle.get_initial_node = function(){
+    var arr = [];
+    for(var i = 0; i< queens_puzzle.size; i++){
+        arr[i] = 0;
+    }
+    return arr;
+};
+queens_puzzle.create_random_node = function() {
+    var arr = [];
+    for(var i=0; i<queens_puzzle.get_initial_node().length; i++){
+        arr[i] = i;
+    }
+    //random perturbation
+    for(var i=0; i<queens_puzzle.get_initial_node().length; i++){
+        this.randomswap(arr);
+    }
+    return arr;
+};
+queens_puzzle.randomswap = function(arr){
+    var c1 = Math.floor((Math.random() * (queens_puzzle.size)));
+    var c2 = Math.floor((Math.random() * (queens_puzzle.size)));
+    var app = arr[c1];
+    arr[c1] = arr[c2];
+    arr[c2] = app;
+    return arr;
+};
+queens_puzzle.select_random_successor = function(node) {
+    var arr = [];
+    for(var i=0; i<node.length; i++){
+        arr[i] = node[i];
+    }
+    // randomly swap 2 columns
+    arr = queens_puzzle.randomswap(arr);
+    return arr;
+};
+queens_puzzle.evaluate = function(node) {
+    var conflicts = 0;
+    for(var c=0; c<node.length; c++){
+        for(var j=0; j<node.length; j++){
+            if(c!=j) {
+                //counting queens on the same row
+                if (node[c] == node[c]) conflicts++;
+                //counting queens on the same diagonal
+                if (c+1 < node.length && node[c] == node[c+1]-1) conflicts++;
+                if (c+1 < node.length && node[c] == node[c+1]+1) conflicts++;
+                if (c-1 >= 0 && node[c] == node[c-1]-1) conflicts++;
+                if (c-1 >= 0 && node[c] == node[c-1]+1) conflicts++;
+            }
+        }
+    }
+    return ((-1)*conflicts);
+};
+queens_puzzle.fitness = function(node) {
+    return (queens_puzzle.evaluate(node)+(queens_puzzle.size*(queens_puzzle.size-1)))/(queens_puzzle.size*(queens_puzzle.size-1));
+};
+queens_puzzle.halting = function(node) {
+    // if we find a solution it's useless to go on in this kind of problem
+    return (queens_puzzle.evaluate(node) == 0 || queens_puzzle.evaluate(node) == (queens_puzzle.size*(queens_puzzle.size-1)));
+};
+queens_puzzle.cooling = null;
+
+// example options
+var queens_options = {
+    "infinite_value": 10000,
+    "mutation_rate": 0.2,
+    "selection_rate": 0.05
+};
+
+
 function mushroom_demo() {
     document.getElementById("status").innerHTML += display_time() + "Calculating simulated annealing...<br />";
     document.getElementById("simulatedannealing").innerHTML = print_queens(simulated_annealing_simple(queens_puzzle, queens_options));
