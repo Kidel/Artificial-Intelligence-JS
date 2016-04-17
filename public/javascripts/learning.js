@@ -222,17 +222,37 @@ var get_centroids = function(dataset, labels, k) {
 };
 
 
-/* returns k random centroids, each of dimension num_features
+/* returns k random centroids, each with random value for each feature
  */
-var get_random_centroids = function(num_features, k) {
-    // TODO
+var get_random_centroids = function(features, k) {
+    var centroids = [];
+    for(var i=0; i<k; i++){
+        centroids[i] = {};
+        for(var j=0; j<features.length; j++){
+            centroids[i][features[j]] = Math.random()*100; // value from 0 to 99
+        }
+    }
+    return centroids;
 };
 
 /* returns the distance between 2 vectors
- * https://en.wikipedia.org/wiki/Euclidean_distance
  */
 var get_distance = function(vectorA, vectorB) {
-    // TODO
+    var sum = 0;
+    for(var i=0; i<vectorA.length; i++){
+        sum += Math.pow(vectorA[i]-vectorB[i], 2);
+    }
+    return Math.sqrt(sum);
+};
+
+/* returns the approx distance between 2 vectors, only useful to check if a vector is closest to another
+ */
+var get_approx_distance = function(vectorA, vectorB) {
+    var sum = 0;
+    for(var i=0; i<vectorA.length; i++){
+        sum += Math.abs(vectorA[i]-vectorB[i]);
+    }
+    return sum;
 };
 
 
@@ -244,8 +264,7 @@ var get_distance = function(vectorA, vectorB) {
  */
 var k_means = function(dataset, k, options) {
     // initialize centroids randomly
-    var num_features = remove_attribute(Object.keys(dataset[0]), "classification").length; // there isn't supposed to be a "classification" anyway
-    var centroids = get_random_centroids(num_features, k);
+    var centroids = get_random_centroids(remove_attribute(Object.keys(dataset[0]), "classification"), k); // there isn't supposed to be a "classification" anyway
 
     // initialize book keeping vars.
     var iterations = 0;
