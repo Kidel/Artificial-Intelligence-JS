@@ -53,16 +53,21 @@ var queens_puzzle = {
             }
         }
         return ((-1)*conflicts);
+    },
+    "fitness": function(node) {
+        return (this.evaluate(node)+(this.size*(this.size-1)))/(this.size*(this.size-1));
     }
 };
 
 // example options
 var queens_options = {
-    "infinite_value": 100000,
+    "infinite_value": 10000,
     "cooling": null,
     "halting": function(problem, node) {
         return problem.evaluate(node) == 0; // if we find a solution it's useless to go on
-    }
+    },
+    "mutation_rate": 0.2,
+    "selection_rate": 0.05
 };
 
 
@@ -79,7 +84,7 @@ var simulated_annealing_simple = function(problem, options){
 
     var current = problem.create_random_node();
 
-    if(options == null || options.infinite_value == null) MAX = 100000;
+    if(options == null || options.infinite_value == null) MAX = 10000;
     else MAX = options.infinite_value;
 
     if(options == null || options.cooling == null) {
@@ -98,7 +103,7 @@ var simulated_annealing_simple = function(problem, options){
     var temp = null;
     for(var time = 1; time < MAX; time++){
         //checking if halting condition is matched
-        if(halting(problem, current)) return current;
+        if(halting(problem, current)) { console.log("annealing halt"); return current;  }
 
         temp = cooling(time, MAX);
         if(temp == 0) return current;
@@ -116,7 +121,9 @@ var simulated_annealing_simple = function(problem, options){
 
 /* given 2 nodes (array) and a cut, gives 2 childs with the pieces before and after the cut swapped
  */
-var reproduction = function(node1, node2, cut){
+var reproduction = function(node1, node2){
+    // for each couple make 2 children with a random cut of the sequence
+    var cut = Math.floor(Math.random() * (node1.length)); //rand from 0 to last index
     var app1 = [];
     var app2 = [];
     for(var i=0; i<node1.length; i++) {
@@ -145,21 +152,31 @@ var mutation = function(node) {
  * problem: a problem that has at least a local min/max, with am evaluate and a create_random_node function.
  * nodes can only be arrays of numbers for now.
  * k: number of initial nodes
- * options: json format options to specify an infinite_value to loop time until that at best and an halting function based on problem and node
+ * options: json format options to specify an infinite_value to loop time until that at best and an
+ *          halting function based on problem and node.
+ *          Can also include mutation rate (from 0 to 1) and selection rate (from 0 to 1)
  *
  * returns a local min/max as a node for that problem
  */
 var genetic_algorithm_simple = function(problem, k, options){
     var nodes = [];
-    var evaluations = [];
+    var selections = [];
     var cut = 1;
     var MAX,
-        halting;
+        halting,
+        mutation_rate,
+        selection_rate;
+
     for(var i=0; i<k; i++){
         nodes[i] = problem.create_random_node();
     }
-    if(options == null || options.infinite_value == null) MAX = 1000000;
+
+    if(options == null || options.infinite_value == null) MAX = 10000;
     else MAX = options.infinite_value;
+    if(options == null || options.mutation_rate == null) mutation_rate = 10000;
+    else mutation_rate = options.mutation_rate;
+    if(options == null || options.selection_rate == null) selection_rate = 10000;
+    else selection_rate = options.selection_rate;
 
     if(options == null || options.halting == null) {
         halting = function(foo, bar) {return false};
@@ -168,29 +185,35 @@ var genetic_algorithm_simple = function(problem, k, options){
     // initialization done
 
     for(var j=0; j<MAX; j++) {
-        for (var i = 0; i < k; i++) {
-            evaluations[i] = problem.evaluate(nodes[i]);
+        var exclusions = []; // to avoid that the fittest replaces every weak one
+        // natural selection killing 10% of the samples
+        for(var y = 0; y < Math.floor(k*selection_rate); y++) {
+            for (var i = 0; i < k; i++) {
+                selections[i] = problem.fitness(nodes[i]);
+            }
+            var strongest = get_index_and_max_value(selections, exclusions);
+            var weakest = get_index_and_min_value(selections, exclusions);
+            // killing the weakest
+            nodes[weakest.index] = nodes[strongest.index];
+            exclusions.push(strongest.index);
         }
-        var strongest = get_index_and_max_value(evaluations);
-        if(halting(problem, nodes[strongest.index])) return nodes[strongest.index]; //checking if halting condition is matched
-        var weakest = get_index_and_min_value(evaluations);
-        // killing the weakest
-        nodes[weakest.index] = nodes[strongest.index];
+        //checking if halting condition is matched
+        if (halting(problem, nodes[strongest.index])) { console.log("genetic halt"); return nodes[strongest.index];  }
         // fixing odd number
         if (!is_even(nodes.length)) nodes[nodes.length] = nodes[strongest.index];
         // reproduction for each node
         for(var i=0; i<nodes.length; i+=2){
-            // for each couple make 2 children with a random cut of the sequence
-            cut = Math.floor(Math.random() * (nodes.length)); //rand from 0 to last index
             // reproduction
-            var childs = reproduction(nodes[i], nodes[i+1], cut);
+            var childs = reproduction(nodes[i], nodes[i+1]);
             nodes[i] = childs[0];
             nodes[i+1] = childs[1];
             // mutation
-            if(problem.evaluate(nodes[i])<0) mutation(nodes[i]);
-            if(problem.evaluate(nodes[i+1])<0) mutation(nodes[i+1]);
+            if(Math.random()> 1 - mutation_rate) 
+                if(problem.fitness(nodes[i])<0) mutation(nodes[i]);
+            if(Math.random()> 1 - mutation_rate)
+                if(problem.fitness(nodes[i+1])<0) mutation(nodes[i+1]);
         }
     }
-    var best = get_index_and_max_value(evaluations);
+    var best = get_index_and_max_value(selections);
     return nodes[best.index];
 };

@@ -14,7 +14,9 @@ You really don't, there are a lot of libraries for machine learning out there. T
 * A simple PRISM
 * Cross Validation
 * Simulated Annealing
-* Genetic Algorithm *(tuning required)*
+* Genetic Algorithm
+
+### To do
 * k-means *(halfway there)*
 
 ***

@@ -4,7 +4,7 @@ function mushroom_demo() {
     document.getElementById("status").innerHTML += display_time() + "Done!<br />";
 /*
     document.getElementById("status").innerHTML += display_time() + "Calculating genetic algorithm...<br />";
-    document.getElementById("geneticalgorithm").innerHTML = print_queens(genetic_algorithm_simple(queens_puzzle, 10, queens_options));
+    document.getElementById("geneticalgorithm").innerHTML = print_queens(genetic_algorithm_simple(queens_puzzle, 200, queens_options));
     document.getElementById("status").innerHTML += display_time() + "Done!<br />";
 */
     document.getElementById("status").innerHTML += display_time() + "Loading the mushrooms data set...<br />";

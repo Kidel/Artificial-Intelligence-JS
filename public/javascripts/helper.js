@@ -141,26 +141,64 @@ function print_queens(node){
     return board;
 }
 
-function get_index_and_max_value(array){
+function get_index_and_max_value(array, excluded_indexes){
+    if(typeof excluded_indexes == 'undefined' || excluded_indexes == null) excluded_indexes = [];
+    var control = true;
     var max = null;
     var index = -1;
-    for(var k in array){
-        if(max==null || max<array[k]){
-            max = array[k];
-            index = k;
+    var provmax = null;
+    var prov = -1;
+    while(control) {
+        // find a min
+        for (var k in array) {
+            if (max == null || max < array[k]) {
+                max = array[k];
+                index = k;
+            }
         }
+        // check if index is excluded, if it is, then repeat, else stop
+        if (excluded_indexes.indexOf(1*index) != -1) {
+            if(prov == -1) {
+                prov = index;
+                provmax = max;
+            }
+            array = remove_attribute(array, max);
+            max = null;
+            index = -1;
+            if(array.length == 0) return {"index": prov, "max": provmax }; // everything excluded, returning the best value
+        }
+        else control = false;
     }
     return {"index": index, "max": max };
 }
 
-function get_index_and_min_value(array){
+function get_index_and_min_value(array, excluded_indexes){
+    if(typeof excluded_indexes == 'undefined' || excluded_indexes == null) excluded_indexes = [];
+    var control = true;
     var min = null;
     var index = -1;
-    for(var k in array){
-        if(min==null || min>array[k]){
-            min = array[k];
-            index = k;
+    var provmin = null;
+    var prov = -1;
+    while(control) {
+        // find a min
+        for (var k in array) {
+            if (min == null || min > array[k]) {
+                min = array[k];
+                index = k;
+            }
         }
+        // check if index is excluded, if it is, then repeat, else stop
+        if (excluded_indexes.indexOf(1*index) != -1) {
+            if(prov == -1) {
+                prov = index;
+                provmin = min;
+            }
+            array = remove_attribute(array, min);
+            min = null;
+            index = -1;
+            if(array.length == 0) return {"index": prov, "min": provmin }; // everything excluded, returning the best value
+        }
+        else control = false;
     }
     return {"index": index, "min": min };
 }
