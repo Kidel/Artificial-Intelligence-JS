@@ -181,20 +181,9 @@ var prism_offline = function(examples, attrib, def) {
             var examples_i = filter_based_on_attrib_value(best.values[i], best.name, examples);
             // no globally removed attribute in prism, only local for the call
             var new_attrib = remove_attribute(attrib, best.name);
-            var subtree = {"label": best.values[i], "subtrees": [prism_simple(examples_i, new_attrib, m)], "type": "option"};
+            var subtree = {"label": best.values[i], "subtrees": [prism_offline(examples_i, new_attrib, m)], "type": "option"};
             tree.subtrees.push(subtree);
         }
         return tree;
     }
-};
-
-var prism_update = function(tree, new_example) {
-    // TODO scan the tree to see if the new_example is matched, if not add the rule
-};
-
-
-var simple_prism = function(examples, attrib, def) {
-    var tree = prism_offline(examples, attrib, def);
-    // TODO run prism_offline on [examples[0]] and then, until perfect, run prism_update for example[1...length-1].
-    return tree;
 };
