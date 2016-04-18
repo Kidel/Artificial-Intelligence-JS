@@ -187,4 +187,38 @@ var prism_simple = function(examples, attrib, def) {
         return tree;
     }
 };
+
+
 // TODO: the one above should be prism_core. Real prsme has to be able to update the tree when a new record is added
+
+function prism(example, tree, visited) {
+    var record = clone(example);
+    var val = tree.val; // TODO val???
+    var app;
+    if(tree.type == "parameter") {
+        var attrib = record[tree.label];
+        visited.push({"attribute": tree.label, "value": null});
+        for(var k in tree.subtrees){
+            app = prism(record, {"tree": tree.subtrees[k], "val": attrib}, visited);
+            if(app != null) return app;
+        }
+    }
+    if(tree.type == "option" && tree.label == record[tree.label]) { // TODO ??? record[label]??
+        for(var k in tree.subtrees){
+            visited[visited.length].value = record[tree.label];
+            app = prism(record, {"tree": tree.subtrees[k], "val": null}, visited);
+            if(app != null) return app;
+        }
+    }
+    if(tree.type == "leaf") {
+        if(tree.label == example.classification) return tree;
+        else {
+            // TODO make record from visited
+            return prism_simple([example],
+                /* TODO need to bring a second example with the attributes read until now and another class*/
+                                remove_attribute(Object.keys(example), "classification"),
+                                null);
+        }
+    }
+    return null;
+}
