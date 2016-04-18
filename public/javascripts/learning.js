@@ -162,14 +162,14 @@ var c4_5_simple = function(examples, attrib, def) {
 };
 
 
-/* Simple PRISM
+/* Simple PRISM (offline version)
  * examples: a list of examples from the learning set, like [{attrib1: x, attrib2: y, ... , classification}, ... ]
  * attrib: a list of attributes to choose from, like ["attrib1", "attrib2", ... ]
  * def: a default value if there are no examples (left), like "yes", or 1.
  *
  * returns: a classification tree, like the one returned by c4_5_simple
  */
-var prism_simple = function(examples, attrib, def) {
+var prism_offline = function(examples, attrib, def) {
     if(examples.length == 0) return { "label": def, "type": "leaf", "subtrees": []};
     else if(same_classification(examples)) return { "label": examples[0].classification, "type": "leaf", "subtrees": [] };
     else if(attrib.length == 0) return { "label": majority_value(examples), "type": "leaf", "subtrees": [], "note": "majority"};
@@ -188,37 +188,13 @@ var prism_simple = function(examples, attrib, def) {
     }
 };
 
+var prism_update = function(tree, new_example) {
+    // TODO scan the tree to see if the new_example is matched, if not add the rule
+};
 
-// TODO: the one above should be prism_core. Real prsme has to be able to update the tree when a new record is added
 
-function prism(example, tree, visited) {
-    var record = clone(example);
-    var val = tree.val; // TODO val???
-    var app;
-    if(tree.type == "parameter") {
-        var attrib = record[tree.label];
-        visited.push({"attribute": tree.label, "value": null});
-        for(var k in tree.subtrees){
-            app = prism(record, {"tree": tree.subtrees[k], "val": attrib}, visited);
-            if(app != null) return app;
-        }
-    }
-    if(tree.type == "option" && tree.label == record[tree.label]) { // TODO ??? record[label]??
-        for(var k in tree.subtrees){
-            visited[visited.length].value = record[tree.label];
-            app = prism(record, {"tree": tree.subtrees[k], "val": null}, visited);
-            if(app != null) return app;
-        }
-    }
-    if(tree.type == "leaf") {
-        if(tree.label == example.classification) return tree;
-        else {
-            // TODO make record from visited
-            return prism_simple([example],
-                /* TODO need to bring a second example with the attributes read until now and another class*/
-                                remove_attribute(Object.keys(example), "classification"),
-                                null);
-        }
-    }
-    return null;
-}
+var simple_prism = function(examples, attrib, def) {
+    var tree = prism_offline(examples, attrib, def);
+    // TODO run prism_offline on [examples[0]] and then, until perfect, run prism_update for example[1...length-1].
+    return tree;
+};
