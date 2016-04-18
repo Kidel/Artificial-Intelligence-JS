@@ -187,3 +187,4 @@ var prism_simple = function(examples, attrib, def) {
         return tree;
     }
 };
+// TODO: the one above should be prism_core. Real prsme has to be able to update the tree when a new record is added

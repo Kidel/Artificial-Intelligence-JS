@@ -11,7 +11,7 @@ You really don't, there are a lot of libraries for machine learning out there. T
 
 ## Implemented algorithms
 * a simple C4.5
-* a simple PRISM
+* a simple PRISM *(halfway)*
 * a simple K-Means
 * Cross Validation
 * Simulated Annealing
