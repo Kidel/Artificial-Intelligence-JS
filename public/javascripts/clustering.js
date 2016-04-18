@@ -101,7 +101,7 @@ var get_distance = function(vectorA, vectorB) {
 
 /* returns the approx distance between 2 vectors, only useful to check if a vector is closest to another
  */
-var get_approx_distance = function(vectorA, vectorB) {
+var get_manhattan_distance = function(vectorA, vectorB) {
     var sum = 0;
     for(var i=0; i<vectorA.length; i++){
         sum += Math.abs(vectorA[i]-vectorB[i]);
