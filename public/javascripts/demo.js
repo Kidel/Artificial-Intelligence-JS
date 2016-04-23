@@ -43,10 +43,10 @@ queens_puzzle.evaluate = function(node) {
                 //counting queens on the same row
                 if (node[j] == node[c]) conflicts++;
                 //counting queens on the same diagonal
-                if (j+1!=c && j+1 < node.length && node[c] == node[j+1]-1) conflicts++;
-                if (j+1!=c && j+1 < node.length && node[c] == node[j+1]+1) conflicts++;
-                if (j-1!=c && j-1 >= 0 && node[c] == node[j-1]-1) conflicts++;
-                if (j-1!=c && j-1 >= 0 && node[c] == node[j-1]+1) conflicts++;
+                if (j+1 < node.length && node[c] == node[j+1]-1) conflicts++;
+                if (j+1 < node.length && node[c] == node[j+1]+1) conflicts++;
+                if (j-1 >= 0 && node[c] == node[j-1]-1) conflicts++;
+                if (j-1 >= 0 && node[c] == node[j-1]+1) conflicts++;
             }
         }
     }
