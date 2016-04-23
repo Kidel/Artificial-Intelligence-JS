@@ -120,7 +120,7 @@ var filter_based_on_attrib_value = function(value, attrib_name, examples) {
  * attrib: a list of attributes to choose from, like ["attrib1", "attrib2", ... ]
  * def: a default value if there are no examples (left), like "yes", or 1.
  *
- * returns: a classification tree, like
+ * returns: a decision tree, like
  * {
  *   "label": best attribute,
  *   "type": "parameter",
@@ -167,7 +167,7 @@ var c4_5_simple = function(examples, attrib, def) {
  * attrib: a list of attributes to choose from, like ["attrib1", "attrib2", ... ]
  * def: a default value if there are no examples (left), like "yes", or 1.
  *
- * returns: a classification tree, like the one returned by c4_5_simple
+ * returns: a decision tree, like the one returned by c4_5_simple
  */
 var prism_offline = function(examples, attrib, def) {
     if(examples.length == 0) return { "label": def, "type": "leaf", "subtrees": []};
