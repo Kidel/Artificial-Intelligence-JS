@@ -46,3 +46,10 @@ cd /your/path/to/Machine-Learning-JS/
 npm start
 ```
 Finally go to [localhost:3000](http://localhost:3000) in your browser and wait for the data to be loaded (it may take a while depending on your hardware).
+
+## Special thanks and credits
+Base for pseudo code and many ideas are directly derived from my course book,
+*"Artificial Intelligence: A Modern Approach (Third edition) by Stuart Russell and Peter Norvig"*.
+That book is simply amazing.
+
+The pseudo I used for K-Means is from [Stanford.edu](http://stanford.edu/~cpiech/cs221/handouts/kmeans.html)
