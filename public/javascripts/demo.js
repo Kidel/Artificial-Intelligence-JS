@@ -39,15 +39,7 @@ queens_puzzle.evaluate = function(node) {
     for(var c=0; c<node.length; c++){
         // and again for each column
         for(var j=0; j<node.length; j++){
-            if(c!=j) {
-                //counting queens on the same row
-                if (node[j] == node[c]) conflicts++;
-                //counting queens on the same diagonal
-                if (j+1 < node.length && node[c] == node[j+1]-1) conflicts++;
-                if (j+1 < node.length && node[c] == node[j+1]+1) conflicts++;
-                if (j-1 >= 0 && node[c] == node[j-1]-1) conflicts++;
-                if (j-1 >= 0 && node[c] == node[j-1]+1) conflicts++;
-            }
+            if(c!=j && (Math.abs(c-j)==Math.abs(board[c]-board[j]))) conflicts++
         }
     }
     return ((-1)*conflicts);
