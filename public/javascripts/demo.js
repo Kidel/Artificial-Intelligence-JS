@@ -39,13 +39,13 @@ queens_puzzle.evaluate = function(node) {
     for(var c=0; c<node.length; c++){
         // and again for each column
         for(var j=0; j<node.length; j++){
-            if(c!=j && (Math.abs(c-j)==Math.abs(board[c]-board[j]))) conflicts++
+            if(c!=j && (Math.abs(c-j)==Math.abs(node[c]-node[j]))) conflicts++
         }
     }
     return ((-1)*conflicts);
 };
 queens_puzzle.fitness = function(node) {
-    return queens_puzzle.evaluate(node);
+    return 1*queens_puzzle.evaluate(node);
 };
 queens_puzzle.halting = function(evaluation) {
     // if we find a solution it's useless to go on in this kind of problem
@@ -55,20 +55,20 @@ queens_puzzle.cooling = null;
 
 // example options
 var queens_options = {
-    "infinite_value": null,
+    "infinite_value": 10000,
     "mutation_rate": 0.05,
     "selection_rate": 0.1
 };
 
 
 function mushroom_demo() {
-    /*document.getElementById("status").innerHTML += display_time() + "Calculating simulated annealing...<br />";
+    document.getElementById("status").innerHTML += display_time() + "Calculating simulated annealing...<br />";
     document.getElementById("simulatedannealing").innerHTML = print_queens(simulated_annealing_simple(queens_puzzle, queens_options));
     document.getElementById("status").innerHTML += display_time() + "Done!<br />";
 
     document.getElementById("status").innerHTML += display_time() + "Calculating genetic algorithm...<br />";
     document.getElementById("geneticalgorithm").innerHTML = print_queens(genetic_algorithm_simple(queens_puzzle, 300, queens_options));
-    document.getElementById("status").innerHTML += display_time() + "Done!<br />";*/
+    document.getElementById("status").innerHTML += display_time() + "Done!<br />";
 
     document.getElementById("status").innerHTML += display_time() + "Loading the mushrooms data set...<br />";
     getJSON("../mushrooms/", function(err, data) {
@@ -86,7 +86,7 @@ function mushroom_demo() {
             document.getElementById("c4_5tree").innerHTML = syntaxHighlight(mushroom_tree_c4_5);
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
             document.getElementById("status").innerHTML += display_time() + "Doing validations...<br />";
-            var mushroom_validation_prism = cross_validation(mushroom_examples, 10, prism_simple);
+            var mushroom_validation_prism = cross_validation(mushroom_examples, 10, prism_offline);
             document.getElementById("prismstats").innerHTML = "... Cross Validation: " + mushroom_validation_prism;
             var mushroom_validation_c4_5 = cross_validation(mushroom_examples, 10, c4_5_simple);
             document.getElementById("c4_5stats").innerHTML = "... Cross Validation: " + mushroom_validation_c4_5;

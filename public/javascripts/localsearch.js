@@ -11,14 +11,13 @@ var simulated_annealing_simple = function(problem, options){
         halting;
 
     var current = problem.create_random_node();
-    console.log(current);
 
-    if(options == null || options.infinite_value == null) infinite_value = 100000;
+    if(options == null || options.infinite_value == null) infinite_value = 10000;
     else infinite_value = options.infinite_value;
 
     if(problem.cooling == null) {
         cooling = function (t, infinite) {
-            return Math.floor(((infinite-t)/infinite)*50)+1;
+            return Math.floor(((infinite-t)/infinite))+1;
         };
     }
     else cooling = problem.cooling;
@@ -33,7 +32,7 @@ var simulated_annealing_simple = function(problem, options){
     for(var time = 1; time < infinite_value; time++){
         //checking if halting condition is matched
         var evaluation = problem.evaluate(current);
-        if(halting(evaluation)) { console.log("annealing halt"); return current;  }
+        if(halting(evaluation)) { console.log("annealing halted"); return current;  }
 
         temp = cooling(time, infinite_value);
         if(temp == 0) return current;
@@ -48,6 +47,7 @@ var simulated_annealing_simple = function(problem, options){
         }
         loops++;
     }
+	console.log("annealing not halted")
     return current;
 };
 
@@ -126,7 +126,7 @@ var genetic_algorithm_simple = function(problem, population_size, options) {
         individuals.sort(compare_fitness);
     }
     create_individuals();
-    if (problem.halting(individuals[0].node)) { console.log("genetic halt"); return individuals[0].node; }
+    if (problem.halting(individuals[0].fitness)) { console.log("genetic halted"); return individuals[0].node; }
     //setup done
 
     for (current_generation = 0; current_generation <= max_generations; current_generation++) {
@@ -157,8 +157,9 @@ var genetic_algorithm_simple = function(problem, population_size, options) {
         }
         new_individuals.sort(compare_fitness);
         individuals = new_individuals;
-        if (problem.halting(individuals[0].node)) { console.log("genetic halt"); return individuals[0].node; }
+        if (problem.halting(individuals[0].fitness)) { console.log("genetic halted"); return individuals[0].node; }
     }
+	console.log("genetic not halted")
     console.log(individuals[0]);
     return individuals[0].node;
 };
