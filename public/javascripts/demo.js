@@ -39,6 +39,7 @@ queens_puzzle.evaluate = function(node) {
     for(var c=0; c<node.length; c++){
         // and again for each column
         for(var j=0; j<node.length; j++){
+			if(c!=j && node[c]==node[j]) conflicts++
             if(c!=j && (Math.abs(c-j)==Math.abs(node[c]-node[j]))) conflicts++
         }
     }
