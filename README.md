@@ -34,7 +34,7 @@ It has to be done only the first time in order to install the required modules.
 Then you should run one of those commands in a terminal (depending on your OS):
 ```bash
 #(Unix)
-/your/path/to/mongod --dbpath /your/path/to/Machine-Learning-JS/data"
+/your/path/to/mongod --dbpath /your/path/to/Machine-Learning-JS/data
 ```
 ```command
 ::(Windows)
