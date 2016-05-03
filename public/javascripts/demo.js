@@ -87,9 +87,9 @@ function mushroom_demo() {
             document.getElementById("c4_5tree").innerHTML = syntaxHighlight(mushroom_tree_c4_5);
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
             document.getElementById("status").innerHTML += display_time() + "Doing validations...<br />";
-            var mushroom_validation_prism = cross_validation(mushroom_examples, 10, prism_offline);
+            var mushroom_validation_prism = (cross_validation(mushroom_examples, 10, prism_offline)*100).toFixed(2) + "%";
             document.getElementById("prismstats").innerHTML = "... Cross Validation: " + mushroom_validation_prism;
-            var mushroom_validation_c4_5 = cross_validation(mushroom_examples, 10, c4_5_simple);
+            var mushroom_validation_c4_5 = (cross_validation(mushroom_examples, 10, c4_5_simple)*100).toFixed(2) + "%";
             document.getElementById("c4_5stats").innerHTML = "... Cross Validation: " + mushroom_validation_c4_5;
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
         }
