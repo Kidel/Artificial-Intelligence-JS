@@ -47,7 +47,7 @@ var simulated_annealing_simple = function(problem, options){
         }
         loops++;
     }
-	console.log("annealing not halted")
+    console.log("annealing not halted");
     return current;
 };
 
@@ -100,7 +100,7 @@ var genetic_algorithm_simple = function(problem, population_size, options) {
     var individuals = [];
     var selection_rate;
     var mutation_rate;
-    if (options == null || options.infinite_value == null) max_generations = 10000;
+    if (options == null || options.infinite_value == null) max_generations = 15000;
     else max_generations = options.infinite_value;
     if (options == null || options.mutation_rate == null) mutation_rate = 0.05;
     else mutation_rate = options.mutation_rate;
@@ -159,7 +159,7 @@ var genetic_algorithm_simple = function(problem, population_size, options) {
         individuals = new_individuals;
         if (problem.halting(individuals[0].fitness)) { console.log("genetic halted"); return individuals[0].node; }
     }
-	console.log("genetic not halted")
+    console.log("genetic not halted");
     console.log(individuals[0]);
     return individuals[0].node;
 };
