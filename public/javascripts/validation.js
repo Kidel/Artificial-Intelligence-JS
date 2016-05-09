@@ -33,21 +33,23 @@ var base_validation = function(learning_set, test_set, classification_algorithm)
  */
 var cross_validation = function(examples, segment_number, classification_algorithm){
     console.log("cross validation on " + examples.length + " lines divided in " + segment_number + " segments of " + Math.floor(examples.length/segment_number) + " elements");
-    var segment_size = Math.ceil(examples.length/segment_number);
+    var segment_size = Math.ceil(examples.length/(segment_number));
     var calls = 0;
     var total = 0;
+    var best_fold = 0;
     for(var i = 1; i < examples.length; i+=segment_size) {
         var learning_set = examples.slice(0, i).concat(examples.slice(i+segment_size, examples.length)); //not taking the i-esim
-        var test_set = examples.slice(i+1, i+segment_size);
+        var test_set = examples.slice(i, i+segment_size);
         console.log("learning set size: " + learning_set.length);
         console.log("test set size: " + test_set.length);
         var base = base_validation(learning_set, test_set, classification_algorithm);
         if(base!=null) {
+            if(base>best_fold) best_fold = base;
             console.log("" + Math.ceil(i / segment_size) + ": " + base);
             total += base;
             calls++;
         }
     }
     console.log("average: "+ total/calls);
-    return total/calls;
+    return [total/calls, best_fold];
 };

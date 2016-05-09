@@ -81,16 +81,14 @@ function mushroom_demo() {
 
             document.getElementById("status").innerHTML += display_time() + "Learning...<br />";
             var mushroom_attributes = remove_attribute(Object.keys(mushroom_examples[0]), "classification");
-            var mushroom_tree_prims = prism_offline(mushroom_examples, mushroom_attributes, '?');
             var mushroom_tree_c4_5 = c4_5_simple(mushroom_examples, mushroom_attributes, '?');
-            document.getElementById("prismtree").innerHTML = syntaxHighlight(mushroom_tree_prims);
             document.getElementById("c4_5tree").innerHTML = syntaxHighlight(mushroom_tree_c4_5);
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
             document.getElementById("status").innerHTML += display_time() + "Doing validations...<br />";
-            var mushroom_validation_prism = (cross_validation(mushroom_examples, 10, prism_offline)*100).toFixed(2) + "%";
-            document.getElementById("prismstats").innerHTML = "... Cross Validation: " + mushroom_validation_prism;
-            var mushroom_validation_c4_5 = (cross_validation(mushroom_examples, 10, c4_5_simple)*100).toFixed(2) + "%";
-            document.getElementById("c4_5stats").innerHTML = "... Cross Validation: " + mushroom_validation_c4_5;
+            var mushroom_validation_c4_5 = cross_validation(mushroom_examples, 10, c4_5_simple);
+            var cross_c4_5 = (mushroom_validation_c4_5[0]*100).toFixed(2) + "%";
+            var best_c4_5 = (mushroom_validation_c4_5[1]*100).toFixed(2) + "%";
+            document.getElementById("c4_5stats").innerHTML = "... Cross Validation -> (average): " + cross_c4_5 + ", (best): " + best_c4_5;
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
         }
     });
