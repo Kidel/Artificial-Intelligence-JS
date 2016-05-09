@@ -80,7 +80,7 @@ function mushroom_demo() {
             var mushroom_examples = data;
 
             document.getElementById("status").innerHTML += display_time() + "Learning...<br />";
-            var mushroom_attributes = remove_attribute(Object.keys(mushroom_examples[0]), "classification");
+            var mushroom_attributes = remove_attribute(remove_attribute(Object.keys(mushroom_examples[0]), "classification"), "_id");
             var mushroom_tree_c4_5 = c4_5_simple(mushroom_examples, mushroom_attributes, '?');
             document.getElementById("c4_5tree").innerHTML = syntaxHighlight(mushroom_tree_c4_5);
             document.getElementById("status").innerHTML += display_time() + "Done!<br />";
