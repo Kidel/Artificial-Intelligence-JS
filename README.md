@@ -11,7 +11,6 @@ You really don't :ghost:. There are a lot of libraries for machine learning out 
 
 ## Implemented algorithms
 * a simple C4.5
-* a simple PRISM (offline)
 * a simple K-Means
 * Cross Validation
 * Simulated Annealing
@@ -50,8 +49,8 @@ Finally go to [localhost:3000](http://localhost:3000) in your browser and wait f
 ***
 
 #### Special thanks and credits
-Base for pseudo code and many ideas are directly derived from my course book,
+Base for pseudo-code and many ideas are directly derived from my course book,
 *"Artificial Intelligence: A Modern Approach (Third edition) by Stuart Russell and Peter Norvig"*.
 That book is simply amazing.
 
-The pseudo I used for K-Means is from [Stanford.edu](http://stanford.edu/~cpiech/cs221/handouts/kmeans.html)
+The pseudo-code I used for my K-Means implementation is taken from [Stanford.edu](http://stanford.edu/~cpiech/cs221/handouts/kmeans.html)
