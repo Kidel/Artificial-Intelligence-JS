@@ -6,7 +6,7 @@ Machine Learning and AI experiments using Node.js as server, client-side JavaScr
 All the important stuff is client side and is in the ../public/javascripts/ folder, Node.js is only used as a server and to retreive data from MongoDB.
 
 #### Why do I need it?
-You really don't :ghost:. There are a lot of libraries for machine learning out there that are way better then this one. This is meant to be just an experiment or simply practice. 
+You really don't. This is meant to be just an experiment or simply practice, and there are a lot of libraries for machine learning out there that are way better then this one.
 
 
 ## Implemented algorithms
