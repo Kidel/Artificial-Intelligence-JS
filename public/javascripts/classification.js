@@ -32,7 +32,6 @@ var majority_value = function(examples) {
  * partial: array with the frequency of each attribute value, for each attribute
  *          like: [attrib1 => ['yes' => 4, 'no' => 5], attrib2 => [...], ...]
  */
-var x = true;
 var gain_array = function(entropyS, partial) {
     var entropy = [];
     for(var a in partial) {
@@ -52,17 +51,18 @@ var gain_array = function(entropyS, partial) {
 };
 
 
-/* selects the best attribute based on its entropy
+/* selects the best attribute based on its gain
  */
-var index_of_best_value = function(entropy) {
-    var min = 10; // entropy can be 0 at best
+var index_of_best_value = function(gain) {
+    var best_val = null;
     var best = "";
-    for(var a in entropy) {
+    for(var a in gain) {
         if(best == "") best = a;
-        for(var v in entropy[a]) {
-            if(entropy[a][v] <= min) {
+        for(var v in gain[a]) {
+            if(best_val == null) best_val = gain[a][v];
+            if(gain[a][v] >= best_val) {
                 best = a;
-                min = entropy[a][v];
+                best_val = gain[a][v];
             }
         }
     }
@@ -88,14 +88,14 @@ var get_possible_values = function(attrib, examples) {
  *   values: array with all the possible values in examples for that attribute
  * }
  * */
-var chose_attribute = function(attrib, examples) {
+var choose_attribute = function(attrib, examples) {
     var total = examples.length;
     var partial = [];  // will look like [attrib1 => ["yes" => 2, "no" => 1], ... ]
     for(var i in examples) {
         for(var j in attrib) {
-            if(typeof partial[attrib[j]] == 'undefined') partial[attrib[j]] = [];
-            if(typeof partial[attrib[j]][examples[i][attrib[j]]] == 'undefined') partial[attrib[j]][examples[i][attrib[j]]] = [];
-            if(typeof partial[attrib[j]][examples[i][attrib[j]]][examples[i].classification] == 'undefined') partial[attrib[j]][examples[i][attrib[j]]][examples[i].classification] = 0;
+            if (typeof partial[attrib[j]] == 'undefined') partial[attrib[j]] = [];
+            if (typeof partial[attrib[j]][examples[i][attrib[j]]] == 'undefined') partial[attrib[j]][examples[i][attrib[j]]] = [];
+            if (typeof partial[attrib[j]][examples[i][attrib[j]]][examples[i].classification] == 'undefined') partial[attrib[j]][examples[i][attrib[j]]][examples[i].classification] = 0;
             partial[attrib[j]][examples[i][attrib[j]]][examples[i].classification]++;
         }
     }
@@ -111,8 +111,8 @@ var chose_attribute = function(attrib, examples) {
     }
     // Gain(S,Si) = Entropy(S) - Sum(Si/S * Entropy(Si), i)
     var attribute_gain = gain_array(classification_entropy, partial);
-    //console.log("---------");
-    //console.log(attribute_gain);
+
+    // picking the best attribute
     var best = {"name": "", "values": []};
     best.name = index_of_best_value(attribute_gain);
     best.values = get_possible_values(best.name, examples);
@@ -172,7 +172,7 @@ var c4_5_simple = function(examples, attrib, def) {
         "note": "majority"
     };
     else {
-        var best = chose_attribute(global_attrib, examples);
+        var best = choose_attribute(global_attrib, examples);
         var tree = {"label": best.name, "subtrees": [], "type": "parameter"};
         var m = majority_value(examples);
         for (var i in best.values) {
