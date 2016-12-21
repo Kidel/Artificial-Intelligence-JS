@@ -1,5 +1,5 @@
 # Artificial Intelligence JS
-Machine Learning and AI experiments using Node.js as server, client-side JavaScript operations and and MongoDB as data source.
+Machine Learning and AI experiments using Node.js as server, **client-side JavaScript** operations and and MongoDB as data source.
 
 ../data/ folder contains the example database, called 'dataset', with a training set in every collection.
 
